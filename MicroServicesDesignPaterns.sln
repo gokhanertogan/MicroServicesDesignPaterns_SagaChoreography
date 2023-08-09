@@ -9,7 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stock.API", "Stock.API\Stoc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment.API", "Payment.API\Payment.API.csproj", "{33D1E874-4EB1-45D0-8E23-FC2AC76DC05E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{7DAC6C3C-9E2E-459F-9617-FCCA494E14D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csproj", "{7DAC6C3C-9E2E-459F-9617-FCCA494E14D0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SagaOrchestration", "SagaOrchestration", "{5E7FD274-73A9-493E-98D4-F81CEAE7154F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SagaChoreography", "SagaChoreography", "{8C265676-9D0D-4A26-813B-C6FB9AAA7731}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +40,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5A317C76-A473-41B3-BAA4-49A3111775D1} = {8C265676-9D0D-4A26-813B-C6FB9AAA7731}
+		{0EC9F1CF-0932-457C-9535-93DF23A64115} = {8C265676-9D0D-4A26-813B-C6FB9AAA7731}
+		{33D1E874-4EB1-45D0-8E23-FC2AC76DC05E} = {8C265676-9D0D-4A26-813B-C6FB9AAA7731}
+		{7DAC6C3C-9E2E-459F-9617-FCCA494E14D0} = {8C265676-9D0D-4A26-813B-C6FB9AAA7731}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2AABEE3F-48FC-4107-81DF-6750F1F0BB57}
