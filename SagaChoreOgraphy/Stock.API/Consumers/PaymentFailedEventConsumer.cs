@@ -8,10 +8,9 @@ namespace Stock.API.Consumers
     public class PaymentFailedEventConsumer : IConsumer<PaymentFailedEvent>
     {
         private readonly StockDbContext _context;
-        private ILogger<OrderCreatedEventConsumer> _logger;
+        private ILogger<PaymentFailedEventConsumer> _logger;
 
-
-        public PaymentFailedEventConsumer(StockDbContext context, ILogger<OrderCreatedEventConsumer> logger)
+        public PaymentFailedEventConsumer(StockDbContext context, ILogger<PaymentFailedEventConsumer> logger)
         {
             _context = context;
             _logger = logger;
@@ -20,7 +19,7 @@ namespace Stock.API.Consumers
         {
             foreach (var item in context.Message.OrderItems)
             {
-                var stock = await _context.Stocks.FirstOrDefaultAsync(x=>x.ProductId == item.ProductId);
+                var stock = await _context.Stocks.FirstOrDefaultAsync(x => x.ProductId == item.ProductId);
 
                 if (stock != null)
                 {

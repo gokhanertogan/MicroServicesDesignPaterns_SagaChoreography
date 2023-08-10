@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Order.API.Contexts;
 using Order.API.DTOs;
+using SagaStateMachineWorkerService.Events;
+using SagaStateMachineWorkerService.Interfaces;
 using Shared;
 
 namespace Order.API.Controllers
@@ -12,12 +14,12 @@ namespace Order.API.Controllers
     public class OrdersController : ControllerBase
     {
         private readonly OrderDbContext _context;
-        private readonly IPublishEndpoint _publishEndpoint;
+        private readonly ISendEndpointProvider _sendEndpointProvider;
 
-        public OrdersController(OrderDbContext context, IPublishEndpoint publishEndpoint)
+        public OrdersController(OrderDbContext context,ISendEndpointProvider sendEndpointProvider)
         {
             _context = context;
-            _publishEndpoint = publishEndpoint;
+            _sendEndpointProvider = sendEndpointProvider;
         }
 
         [HttpPost]
@@ -39,7 +41,7 @@ namespace Order.API.Controllers
             await _context.AddAsync(newOrder);
             await _context.SaveChangesAsync();
 
-            var orderCreatedEvent = new OrderCreatedEvent()
+            var orderCreatedRequestEvent = new OrderCreatedRequestEvent()
             {
                 BuyerId = orderCreate.BuyerId,
                 OrderId = newOrder.Id,
@@ -55,10 +57,11 @@ namespace Order.API.Controllers
 
             orderCreate.OrderItems.ForEach(item =>
             {
-                orderCreatedEvent.OrderItems.Add(new OrderItemMessage { ProductId = item.ProductId, Count = item.Count });
+                orderCreatedRequestEvent.OrderItems.Add(new OrderItemMessage { ProductId = item.ProductId, Count = item.Count });
             });
 
-            await _publishEndpoint.Publish(orderCreatedEvent);
+            var sendEndpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri($"queue:{RabbitMQSettingsConst.OrderSaga}"));
+            await sendEndpoint.Send<IOrderCreatedRequestEvent>(orderCreatedRequestEvent);
 
             return Ok();
         }

@@ -17,7 +17,6 @@ builder.Services.AddMassTransit(x =>
         {
             e.ConfigureConsumer<OrderCreatedEventConsumer>(context);
         });
-
         cfg.ReceiveEndpoint(RabbitMQSettingsConst.StockPaymentFailedEventQueueName, e =>
         {
             e.ConfigureConsumer<PaymentFailedEventConsumer>(context);

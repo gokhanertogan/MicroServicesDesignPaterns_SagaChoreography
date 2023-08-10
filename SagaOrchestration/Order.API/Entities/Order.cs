@@ -10,7 +10,6 @@
         public OrderStatus Status { get; set; }
         public string FailMessage { get; set; }
     }
-
     public enum OrderStatus
     {
         Suspend,
